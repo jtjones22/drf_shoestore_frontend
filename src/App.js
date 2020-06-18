@@ -1,26 +1,55 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const url = "http://127.0.0.1:8000/api/shoe/?format=json";
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      shoes: []
+    }
+  }
+  componentDidMount() {
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      this.setState({shoes: data})
+      console.log(data)
+    })
+  }
+  render() {
+    const { shoes = [] } = this.state
+    return (
+      <div>
+        <h3>Homepage</h3>
+        {shoes.map(shoe => (
+          <ul>
+            <li>
+              Size: {shoe.size}
+            </li>
+            <li>
+              Brand: {shoe.brand}
+            </li>
+            <li>
+              Manufacturer: {shoe.manufacturer}
+            </li>
+            <li>
+              Color: {shoe.color}
+            </li>
+            <li>
+              Material: {shoe.material}
+            </li>
+            <li>
+              Shoe Type: {shoe.shoe_type}
+            </li>
+            <li>
+              Fasten Type: {shoe.fasten_type}
+            </li>
+          </ul>
+        ))}
+      </div>
+    );
+  }
+  }
 
 export default App;
